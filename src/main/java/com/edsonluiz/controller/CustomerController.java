@@ -1,9 +1,6 @@
 package com.edsonluiz.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,5 +39,13 @@ public class CustomerController {
     @GetMapping("filterList")
     public List<String> filterOptional(@RequestParam List<String> names) {
         return NAMES.stream().filter(names::contains).toList();
+    }
+
+    // http://localhost:8080/v1/customers/Edson
+    @GetMapping("{name}")
+    public String findByName(@PathVariable String name) {
+        return NAMES.stream().filter(n -> n.equalsIgnoreCase(name))
+                .findFirst()
+                .orElseGet(() -> "");
     }
 }
